@@ -1,0 +1,13 @@
+#Thu May 22 23:50:48 CEST 2003
+quote=Quote
+unknown=Unknown
+new_quote=New Quote
+edit_quote=Edit Quote
+delete_quote=Delete Quote
+author=Author
+quote_admin=Quote Admin
+iw.component.com.idega.block.quote.presentation.Quote.name=Quote
+save=Save
+origin=Origin
+no_quotes=No quotes in database...
+close=Close
