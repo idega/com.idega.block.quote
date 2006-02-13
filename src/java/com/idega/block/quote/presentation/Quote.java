@@ -1,7 +1,5 @@
 package com.idega.block.quote.presentation;
 
-import java.util.HashMap;
-import java.util.Map;
 import com.idega.block.quote.business.QuoteBusiness;
 import com.idega.block.quote.business.QuoteHolder;
 import com.idega.core.localisation.business.ICLocaleBusiness;
@@ -10,6 +8,7 @@ import com.idega.idegaweb.IWResourceBundle;
 import com.idega.idegaweb.block.presentation.Builderaware;
 import com.idega.presentation.Block;
 import com.idega.presentation.IWContext;
+import com.idega.presentation.Layer;
 import com.idega.presentation.Table;
 import com.idega.presentation.text.Link;
 import com.idega.presentation.text.Text;
@@ -32,15 +31,6 @@ public class Quote extends Block implements Builderaware {
 	private boolean _hasEditPermission = false;
 	private int _iLocaleID;
 	private int _row = 1;
-
-	private Table _myTable;
-
-	private static final String QUOTE_STYLE_NAME = "quote";
-	private static final String ORIGIN_STYLE_NAME = "origin";
-	private static final String AUTHOR_STYLE_NAME = "author";
-	private static final String QUOTE_STYLE = "font-size:9px;font-family:Verdana,Arial,Helvetica,sans-serif;font-weight:bold;";
-	private static final String ORIGIN_STYLE = "font-size:10px;font-family:Arial,Helvetica,sans-serif;";
-	private static final String AUTHOR_STYLE = "font-size:9px;font-family:Verdana,Arial,Helvetica,sans-serif;font-weight:bold;";
 
 	private String width_;
 	private String height_;
@@ -75,28 +65,25 @@ public class Quote extends Block implements Builderaware {
 		_hasEditPermission = iwc.hasEditPermission(this);
 		_iLocaleID = ICLocaleBusiness.getLocaleId(iwc.getCurrentLocale());
 
-		drawTable();
+		Layer layer = drawLayer();
+		
 		QuoteHolder quote = getQuoteBusiness().getRandomQuote(iwc, _iLocaleID, _objectID, _alwaysFetchFromDatabase);
 		if (quote != null)
 			_quoteID = quote.getQuoteID();
 
 		if (_hasEditPermission)
-			_myTable.add(getAdminTable(iwc), 1, _row++);
+			layer.add(getAdminLayer(iwc));
 
-		_myTable.add(getQuoteTable(iwc, quote), 1, _row);
-		add(_myTable);
+		layer.add(getQuoteLayer(iwc, quote));
+		
+		add(layer);
 	}
 
-	private Table getQuoteTable(IWContext iwc, QuoteHolder quote) {
-		Table table = new Table();
-		table.setBorder(0);
-		table.setWidth("100%");
-		table.setHeight("100%");
+	private Layer getQuoteLayer(IWContext iwc, QuoteHolder quote) {
+		Layer layer = new Layer();
+		layer.setStyleClass("quoteItem");
 
 		if (quote != null) {
-			table.setAlignment(1, 1, "left");
-			table.setAlignment(1, 3, "right");
-
 			String originString = quote.getOrigin();
 			String textString = quote.getText();
 			if (textString == null) {
@@ -107,76 +94,64 @@ public class Quote extends Block implements Builderaware {
 				authorString = _iwrb.getLocalizedString("unknown", "Unknown");
 			}
 
-			Text quoteOrigin = getStyleText(originString + ":",ORIGIN_STYLE_NAME);
-			if ( this.originStyle_ != null )
-				quoteOrigin.setStyleAttribute(originStyle_);
+			Layer origin = new Layer();
+			origin.setStyleClass("origin");
+			layer.add(new Text(originString + ":"));
 			
+			Layer text = new Layer();
+			text.setStyleClass("text");
 			Text quoteText = null;
 			if (_showQuotes) {
-				quoteText = getStyleText("\"" + TextSoap.formatText(textString) + "\"", QUOTE_STYLE_NAME);
+				quoteText = new Text("\"" + TextSoap.formatText(textString) + "\"");
 			}
 			else {
-				quoteText = getStyleText(TextSoap.formatText(textString), QUOTE_STYLE_NAME);
+				quoteText = new Text(TextSoap.formatText(textString));
 			}
-			quoteText.setHorizontalAlignment(alignment_);
-			if ( this.quoteStyle_ != null )
-				quoteText.setStyleAttribute(quoteStyle_);
+			text.add(quoteText);
 			
-			Text quoteAuthor = getStyleText("-" + Text.getNonBrakingSpace().getText() + authorString, AUTHOR_STYLE_NAME);
-			if ( this.authorStyle_ != null )
-				quoteAuthor.setStyleAttribute(authorStyle_);
+			Layer author = new Layer();
+			author.setStyleClass("author");
+			author.add(new Text("-" + Text.getNonBrakingSpace().getText() + authorString));
 
 			if (_showOrigin && originString != null && originString.length() > 0) {
-				table.add(quoteOrigin, 1, 1);
-				table.add(quoteText, 1, 2);
-				table.add(quoteAuthor, 1, 3);
-				table.setHeight(1, 2, "100%");
+				layer.add(origin);
 			}
-			else {
-				table.mergeCells(1, 1, 1, 2);
-				table.setHeight(1, 1, "100%");
-				table.setVerticalAlignment(1, 1, "middle");
-
-				table.add(quoteText, 1, 1);
-				if (_showAuthor) {
-					table.add(quoteAuthor, 1, 3);
-				}
+			layer.add(text);
+			if (_showAuthor) {
+				layer.add(author);
 			}
 		}
 		else {
-			table.setAlignment(1, 1, "center");
-			table.addText(_iwrb.getLocalizedString("no_quotes", "No quotes in database..."));
+			layer.add(new Text(_iwrb.getLocalizedString("no_quotes", "No quotes in database...")));
 		}
 
-		return table;
+		return layer;
 	}
 
-	private Table getAdminTable(IWContext iwc) {
-		Table table = new Table(3, 1);
-		table.setCellpadding(0);
-		table.setCellspacing(0);
+	private Layer getAdminLayer(IWContext iwc) {
+		Layer layer = new Layer();
+		layer.setStyleClass("quoteAdmin");
 
-		table.add(getCreateLink(iwc), 1, 1);
+		layer.add(getCreateLink(iwc));
 		if (_quoteID != -1) {
-			table.add(getEditLink(iwc), 2, 1);
-			table.add(getDeleteLink(iwc), 3, 1);
+			layer.add(getEditLink(iwc));
+			layer.add(getDeleteLink(iwc));
 		}
 
-		return table;
+		return layer;
 	}
 
-	private void drawTable() {
-		_myTable = new Table();
-		_myTable.setCellpadding(0);
-		_myTable.setCellspacing(0);
-		_myTable.setWidth(width_);
-		if (height_ != null)
-			_myTable.setHeight(height_);
+	private Layer drawLayer() {
+		Layer layer = new Layer();
+		layer.setStyleClass("quote");
+		
+		return layer;
 	}
 
 	private Link getCreateLink(IWContext iwc) {
 		Link link = new Link(iwc.getIWMainApplication().getBundle(this.IW_CORE_BUNDLE_IDENTIFIER).getImage("shared/create.gif", _iwrb.getLocalizedString("new_quote", "New Quote")));
 		link.setWindowToOpen(QuoteEditor.class);
+		link.setStyleClass("quoteAdminLink");
 		link.addParameter(QuoteBusiness.PARAMETER_MODE, QuoteBusiness.PARAMETER_NEW);
 		link.addParameter(QuoteBusiness.PARAMETER_OBJECT_INSTANCE_ID, _objectID);
 		return link;
@@ -185,6 +160,7 @@ public class Quote extends Block implements Builderaware {
 	private Link getEditLink(IWContext iwc) {
 		Link link = new Link(iwc.getIWMainApplication().getBundle(this.IW_CORE_BUNDLE_IDENTIFIER).getImage("shared/edit.gif", _iwrb.getLocalizedString("edit_quote", "Edit Quote")));
 		link.setWindowToOpen(QuoteEditor.class);
+		link.setStyleClass("quoteAdminLink");
 		link.addParameter(QuoteBusiness.PARAMETER_MODE, QuoteBusiness.PARAMETER_EDIT);
 		link.addParameter(QuoteBusiness.PARAMETER_QUOTE_ID, _quoteID);
 		link.addParameter(QuoteBusiness.PARAMETER_OBJECT_INSTANCE_ID, _objectID);
@@ -194,6 +170,7 @@ public class Quote extends Block implements Builderaware {
 	private Link getDeleteLink(IWContext iwc) {
 		Link link = new Link(iwc.getIWMainApplication().getBundle(this.IW_CORE_BUNDLE_IDENTIFIER).getImage("shared/delete.gif", _iwrb.getLocalizedString("delete_quote", "Delete Quote")));
 		link.setWindowToOpen(QuoteEditor.class);
+		link.setStyleClass("quoteAdminLink");
 		link.addParameter(QuoteBusiness.PARAMETER_MODE, QuoteBusiness.PARAMETER_DELETE);
 		link.addParameter(QuoteBusiness.PARAMETER_QUOTE_ID, _quoteID);
 		link.addParameter(QuoteBusiness.PARAMETER_OBJECT_INSTANCE_ID, _objectID);
@@ -208,38 +185,47 @@ public class Quote extends Block implements Builderaware {
 		return IW_BUNDLE_IDENTIFIER;
 	}
 
+	/** @deprecated */
 	public void setWidth(String width) {
 		width_ = width;
 	}
 
+	/** @deprecated */
 	public String getWidth() {
 		return width_;
 	}
 
+	/** @deprecated */
 	public void setHeight(String height) {
 		height_ = height;
 	}
 
+	/** @deprecated */
 	public String getHeight() {
 		return height_;
 	}
 
+	/** @deprecated */
 	public void setOriginStyle(String style) {
 		originStyle_ = style;
 	}
 
+	/** @deprecated */
 	public void setTextStyle(String style) {
 		quoteStyle_ = style;
 	}
 
+	/** @deprecated */
 	public void setAuthorStyle(String style) {
 		authorStyle_ = style;
 	}
 
+	/** @deprecated */
 	public void setHorizontalAlignment(String alignment) {
 		alignment_ = alignment;
 	}
 
+	/** @deprecated */
 	public String getHorizontalAlignment() {
 		return alignment_;
 	}
@@ -252,9 +238,6 @@ public class Quote extends Block implements Builderaware {
 		Quote obj = null;
 		try {
 			obj = (Quote) super.clone();
-			if (this._myTable != null) {
-				obj._myTable = (Table) this._myTable.clone();
-			}
 		}
 		catch (Exception ex) {
 			ex.printStackTrace(System.err);
@@ -264,21 +247,6 @@ public class Quote extends Block implements Builderaware {
 
 	private QuoteBusiness getQuoteBusiness() {
 		return QuoteBusiness.getQuoteBusinessInstace();
-	}
-
-	/**
-	 * @see com.idega.presentation.Block#getStyleNames()
-	 */
-	public Map getStyleNames() {
-		HashMap map = new HashMap();
-		String[] styleNames = { QUOTE_STYLE_NAME, ORIGIN_STYLE_NAME, AUTHOR_STYLE_NAME };
-		String[] styleValues = { QUOTE_STYLE, ORIGIN_STYLE, AUTHOR_STYLE };
-
-		for (int a = 0; a < styleNames.length; a++) {
-			map.put(styleNames[a], styleValues[a]);
-		}
-
-		return map;
 	}
 
 	/** @deprecated */
