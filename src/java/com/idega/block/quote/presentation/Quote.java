@@ -96,7 +96,7 @@ public class Quote extends Block implements Builderaware {
 
 			Layer origin = new Layer();
 			origin.setStyleClass("origin");
-			layer.add(new Text(originString + ":"));
+			origin.add(new Text(originString + ":"));
 			
 			Layer text = new Layer();
 			text.setStyleClass("text");
