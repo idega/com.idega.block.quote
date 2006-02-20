@@ -149,7 +149,7 @@ public class Quote extends Block implements Builderaware {
 	}
 
 	private Link getCreateLink(IWContext iwc) {
-		Link link = new Link(iwc.getIWMainApplication().getBundle(this.IW_CORE_BUNDLE_IDENTIFIER).getImage("shared/create.gif", _iwrb.getLocalizedString("new_quote", "New Quote")));
+		Link link = new Link(iwc.getIWMainApplication().getBundle(Builderaware.IW_CORE_BUNDLE_IDENTIFIER).getImage("shared/create.gif", _iwrb.getLocalizedString("new_quote", "New Quote")));
 		link.setWindowToOpen(QuoteEditor.class);
 		link.setStyleClass("quoteAdminLink");
 		link.addParameter(QuoteBusiness.PARAMETER_MODE, QuoteBusiness.PARAMETER_NEW);
@@ -158,7 +158,7 @@ public class Quote extends Block implements Builderaware {
 	}
 
 	private Link getEditLink(IWContext iwc) {
-		Link link = new Link(iwc.getIWMainApplication().getBundle(this.IW_CORE_BUNDLE_IDENTIFIER).getImage("shared/edit.gif", _iwrb.getLocalizedString("edit_quote", "Edit Quote")));
+		Link link = new Link(iwc.getIWMainApplication().getBundle(Builderaware.IW_CORE_BUNDLE_IDENTIFIER).getImage("shared/edit.gif", _iwrb.getLocalizedString("edit_quote", "Edit Quote")));
 		link.setWindowToOpen(QuoteEditor.class);
 		link.setStyleClass("quoteAdminLink");
 		link.addParameter(QuoteBusiness.PARAMETER_MODE, QuoteBusiness.PARAMETER_EDIT);
@@ -168,7 +168,7 @@ public class Quote extends Block implements Builderaware {
 	}
 
 	private Link getDeleteLink(IWContext iwc) {
-		Link link = new Link(iwc.getIWMainApplication().getBundle(this.IW_CORE_BUNDLE_IDENTIFIER).getImage("shared/delete.gif", _iwrb.getLocalizedString("delete_quote", "Delete Quote")));
+		Link link = new Link(iwc.getIWMainApplication().getBundle(Builderaware.IW_CORE_BUNDLE_IDENTIFIER).getImage("shared/delete.gif", _iwrb.getLocalizedString("delete_quote", "Delete Quote")));
 		link.setWindowToOpen(QuoteEditor.class);
 		link.setStyleClass("quoteAdminLink");
 		link.addParameter(QuoteBusiness.PARAMETER_MODE, QuoteBusiness.PARAMETER_DELETE);
