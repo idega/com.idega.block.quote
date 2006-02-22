@@ -30,13 +30,8 @@ public class Quote extends Block implements Builderaware {
 	private int _objectID = -1;
 	private boolean _hasEditPermission = false;
 	private int _iLocaleID;
-	private int _row = 1;
-
 	private String width_;
 	private String height_;
-	private String quoteStyle_;
-	private String authorStyle_;
-	private String originStyle_;
 	private String alignment_ = Table.HORIZONTAL_ALIGN_CENTER;
 
 	private final static String IW_BUNDLE_IDENTIFIER = "com.idega.block.quote";
@@ -207,17 +202,14 @@ public class Quote extends Block implements Builderaware {
 
 	/** @deprecated */
 	public void setOriginStyle(String style) {
-		originStyle_ = style;
 	}
 
 	/** @deprecated */
 	public void setTextStyle(String style) {
-		quoteStyle_ = style;
 	}
 
 	/** @deprecated */
 	public void setAuthorStyle(String style) {
-		authorStyle_ = style;
 	}
 
 	/** @deprecated */
