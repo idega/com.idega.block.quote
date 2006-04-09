@@ -15,19 +15,19 @@ public QuoteHolder() {
   /* Setters */
 
   protected void setQuoteID(int id) {
-    quoteID_ = id;
+    this.quoteID_ = id;
   }
 
   protected void setOrigin(String origin) {
-    origin_ = origin;
+    this.origin_ = origin;
   }
 
   protected void setText(String text) {
-    text_ = text;
+    this.text_ = text;
   }
 
   protected void setAuthor(String author) {
-    author_ = author;
+    this.author_ = author;
   }
 
   protected void setLocaleID(int localeID) {
@@ -35,19 +35,19 @@ public QuoteHolder() {
 
   /* Getters */
   public int getQuoteID() {
-    return quoteID_;
+    return this.quoteID_;
   }
 
   public String getOrigin() {
-    return origin_;
+    return this.origin_;
   }
 
   public String getText() {
-    return text_;
+    return this.text_;
   }
 
   public String getAuthor() {
-    return author_;
+    return this.author_;
   }
 
 }
