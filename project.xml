@@ -6,7 +6,6 @@
   <name>idegaWeb Quote Block</name>
   <artifactId>com.idega.block.quote</artifactId>
   <currentVersion>3.1.0</currentVersion>
-
   <inceptionYear>2000</inceptionYear>
   <shortDescription>Quote</shortDescription>
   <versions>
@@ -14,6 +13,11 @@
       <id>1.0.1</id>
       <name>1.0.1</name>
       <tag>QUOTE_1_0_1</tag>
+    </version>
+    <version>
+      <id>3.1.0</id>
+      <name>3.1.0</name>
+      <tag>QUOTE_3_1_0</tag>
     </version>
   </versions>
   <branches/>
