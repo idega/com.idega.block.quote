@@ -9,7 +9,10 @@ private int quoteID_ = -1;
 private String origin_ = null;
 private String text_ = null;
 private String author_ = null;
-public QuoteHolder() {
+private int localeID_ = -1;
+
+
+  public QuoteHolder() {
   }
 
   /* Setters */
@@ -31,6 +34,7 @@ public QuoteHolder() {
   }
 
   protected void setLocaleID(int localeID) {
+    this.localeID_ = localeID;
   }
 
   /* Getters */
