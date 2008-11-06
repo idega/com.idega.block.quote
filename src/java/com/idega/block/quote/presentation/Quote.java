@@ -12,6 +12,7 @@ import com.idega.presentation.Layer;
 import com.idega.presentation.Table;
 import com.idega.presentation.text.Link;
 import com.idega.presentation.text.Text;
+import com.idega.util.PresentationUtil;
 import com.idega.util.text.TextSoap;
 
 /**
@@ -52,10 +53,12 @@ public class Quote extends Block implements Builderaware {
 		this._quoteID = quoteID;
 	}
 
+	@Override
 	public void main(IWContext iwc) throws Exception {
 		this._iwb = getBundle(iwc);
 		this._iwrb = this._iwb.getResourceBundle(iwc.getCurrentLocale());
 		this._objectID = getICObjectInstanceID();
+		PresentationUtil.addStyleSheetToHeader(iwc, _iwb.getVirtualPathWithFileNameString("style/quote.css"));
 
 		this._hasEditPermission = iwc.hasEditPermission(this);
 		this._iLocaleID = ICLocaleBusiness.getLocaleId(iwc.getCurrentLocale());
@@ -178,56 +181,74 @@ public class Quote extends Block implements Builderaware {
 		this.width_ = "150";
 	}
 
+	@Override
 	public String getBundleIdentifier() {
 		return IW_BUNDLE_IDENTIFIER;
 	}
 
 	/** @deprecated */
+	@Deprecated
+	@Override
 	public void setWidth(String width) {
 		this.width_ = width;
 	}
 
 	/** @deprecated */
+	@Deprecated
+	@Override
 	public String getWidth() {
 		return this.width_;
 	}
 
 	/** @deprecated */
+	@Deprecated
+	@Override
 	public void setHeight(String height) {
 		this.height_ = height;
 	}
 
 	/** @deprecated */
+	@Deprecated
+	@Override
 	public String getHeight() {
 		return this.height_;
 	}
 
 	/** @deprecated */
+	@Deprecated
 	public void setOriginStyle(String style) {
 	}
 
 	/** @deprecated */
+	@Deprecated
 	public void setTextStyle(String style) {
 	}
 
 	/** @deprecated */
+	@Deprecated
 	public void setAuthorStyle(String style) {
 	}
 
 	/** @deprecated */
+	@Deprecated
+	@Override
 	public void setHorizontalAlignment(String alignment) {
 		this.alignment_ = alignment;
 	}
 
 	/** @deprecated */
+	@Deprecated
+	@Override
 	public String getHorizontalAlignment() {
 		return this.alignment_;
 	}
 
+	@Override
 	public boolean deleteBlock(int ICObjectInstanceID) {
 		return false;
 	}
 
+	@Override
 	public Object clone() {
 		Quote obj = null;
 		try {
@@ -244,67 +265,86 @@ public class Quote extends Block implements Builderaware {
 	}
 
 	/** @deprecated */
+	@Deprecated
 	public void setQuoteWidth(String width) {
 		setWidth(width);
 	}
 	/** @deprecated */
+	@Deprecated
 	public void setQuoteWidth(int width) {
 		setWidth(Integer.toString(width));
 	}
 	/** @deprecated */
+	@Deprecated
 	public void setQuoteHeight(String height) {
 		setHeight(height);
 	}
 	/** @deprecated */
+	@Deprecated
 	public void setQuoteHeight(int height) {
 		setHeight(Integer.toString(height));
 	}
 	/** @deprecated */
+	@Deprecated
 	public void setQuoteOriginStyle(String style) {
 		setOriginStyle(style);
 	}
 	/** @deprecated */
+	@Deprecated
 	public void setQuoteTextStyle(String style) {
 		setTextStyle(style);
 	}
 	/** @deprecated */
+	@Deprecated
 	public void setQuoteAuthorStyle(String style) {
 		setAuthorStyle(style);
 	}
 	/** @deprecated */
+	@Deprecated
 	public void setQuoteOriginSize(String size) {
 	}
 	/** @deprecated */
+	@Deprecated
 	public void setQuoteOriginSize(int size) {
 	}
 	/** @deprecated */
+	@Deprecated
 	public void setQuoteOriginColor(String color) {
 	}
 	/** @deprecated */
+	@Deprecated
 	public void setQuoteOriginFace(String face) {
 	}
 	/** @deprecated */
+	@Deprecated
 	public void setQuoteTextSize(String size) {
 	}
 	/** @deprecated */
+	@Deprecated
 	public void setQuoteTextSize(int size) {
 	}
 	/** @deprecated */
+	@Deprecated
 	public void setQuoteTextColor(String color) {
 	}
 	/** @deprecated */
+	@Deprecated
 	public void setQuoteTextFace(String face) {
 	}
 	/** @deprecated */
+	@Deprecated
 	public void setQuoteAuthorSize(String size) {
 	}
 	/** @deprecated */
+	@Deprecated
 	public void setQuoteAuthorSize(int size) {
 	}
 	/** @deprecated */
+	@Deprecated
 	public void setQuoteAuthorColor(String color) {
 	}
 	/** @deprecated */
+	@Deprecated
 	public void setQuoteAuthorFace(String face) {
 	}
 	

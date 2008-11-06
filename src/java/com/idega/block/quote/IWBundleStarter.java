@@ -11,14 +11,11 @@ package com.idega.block.quote;
 
 import com.idega.idegaweb.IWBundle;
 import com.idega.idegaweb.IWBundleStartable;
-import com.idega.idegaweb.include.GlobalIncludeManager;
 
 
 public class IWBundleStarter implements IWBundleStartable {
 
 	public void start(IWBundle starterBundle) {
-    GlobalIncludeManager includeManager = GlobalIncludeManager.getInstance();
-    includeManager.addBundleStyleSheet("com.idega.block.quote", "/style/quote.css");
 	}
 
 	public void stop(IWBundle starterBundle) {
